@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Your Service Name",
+  "name_for_model": "your_service_name",
+  "description_for_human": "What your service does, written for people.",
+  "description_for_model": "What your service does, written for an AI model. Be specific about capabilities, data types, and when this service should be used.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://example.com/openapi.yaml"
+  },
+  "logo_url": "https://example.com/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "https://example.com/legal"
+}

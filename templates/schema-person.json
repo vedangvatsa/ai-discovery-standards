@@ -1,0 +1,23 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Your Name",
+  "jobTitle": "Your Title",
+  "url": "https://example.com",
+  "image": "https://example.com/photo.jpg",
+  "description": "Factual one-sentence bio.",
+  "sameAs": [
+    "https://twitter.com/handle",
+    "https://linkedin.com/in/handle",
+    "https://github.com/handle"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Your Company",
+    "url": "https://company.com"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Your University"
+  }
+}

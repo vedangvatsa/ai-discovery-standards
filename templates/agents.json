@@ -1,0 +1,20 @@
+{
+  "schema_version": "v1",
+  "name": "Your Agent or Service Name",
+  "description": "What this agent/service does and what capabilities it offers.",
+  "url": "https://example.com",
+  "capabilities": [
+    {
+      "name": "capability_name",
+      "description": "What this capability does",
+      "endpoint": "https://example.com/api/capability"
+    }
+  ],
+  "authentication": {
+    "type": "none"
+  },
+  "contact": {
+    "email": "support@example.com",
+    "url": "https://example.com"
+  }
+}

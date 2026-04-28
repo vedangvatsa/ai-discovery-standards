@@ -1,0 +1,10 @@
+# carbon.txt
+# https://example.com
+
+Provider: Your Hosting Provider
+Green: Yes/No
+URL: https://provider.com/sustainability
+
+Static-Generation: Yes/No
+Image-Optimization: Yes/No
+CDN: Yes/No

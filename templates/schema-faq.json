@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is [your topic]?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A direct, concise answer in 40-60 words. Include specific facts and data points. This text is what AI systems extract for citation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does [your topic] work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Another direct answer. Be specific and factual."
+      }
+    }
+  ]
+}

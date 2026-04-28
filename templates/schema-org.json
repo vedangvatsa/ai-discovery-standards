@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Your Organization",
+  "url": "https://example.com",
+  "logo": "https://example.com/logo.png",
+  "description": "What your organization does.",
+  "sameAs": [
+    "https://twitter.com/org",
+    "https://linkedin.com/company/org"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "contact@example.com",
+    "contactType": "customer support"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Founder Name"
+  }
+}

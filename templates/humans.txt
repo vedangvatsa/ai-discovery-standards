@@ -1,0 +1,13 @@
+/* TEAM */
+Name: Your Name
+Role: Founder & Developer
+Site: https://example.com
+Twitter: @handle
+Location: City, Country
+
+/* SITE */
+Last update: 2026/04/28
+Language: English
+Standards: HTML5, CSS3, JavaScript
+Framework: Next.js
+Hosting: Firebase App Hosting

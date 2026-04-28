@@ -1,0 +1,23 @@
+# Your Site Name
+
+> One-paragraph description of who you are, what this site is about, and why it matters. Be specific and factual. Include your name, role, and primary subject areas.
+
+## Guides & Resources
+
+- [Resource Title](https://example.com/resource): One-line description of what this resource contains and who it is for.
+- [Another Resource](https://example.com/another): Brief, factual description.
+
+## Articles & Essays
+
+- [Article Title](https://example.com/article): Summary of the article's thesis and key argument.
+- [Another Article](https://example.com/another-article): Summary.
+
+## Reference
+
+- [Glossary](https://example.com/glossary): Definitions of key terms in [your domain].
+- [FAQ](https://example.com/faq): Frequently asked questions about [your topic].
+
+## Profile Pages
+
+- [About](https://example.com/about): Professional background and credentials.
+- [Contact](https://example.com/contact): How to reach the site owner.

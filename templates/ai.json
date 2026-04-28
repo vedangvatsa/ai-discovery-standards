@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "name": "Your Site Name",
+  "url": "https://example.com",
+  "description": "What your site does and who it serves.",
+  "author": {
+    "name": "Your Name",
+    "url": "https://example.com/about",
+    "twitter": "@handle"
+  },
+  "content": {
+    "pages": [
+      {"title": "Page Title", "url": "/page", "description": "What this page covers"}
+    ]
+  },
+  "ai_permissions": {
+    "training": "allowed",
+    "citation": "allowed",
+    "indexing": "allowed",
+    "summarization": "allowed"
+  },
+  "discovery": {
+    "llms_txt": "https://example.com/llms.txt",
+    "llms_full_txt": "https://example.com/llms-full.txt",
+    "sitemap": "https://example.com/sitemap.xml",
+    "ai_plugin": "https://example.com/.well-known/ai-plugin.json"
+  }
+}

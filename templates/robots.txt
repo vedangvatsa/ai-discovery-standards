@@ -1,0 +1,105 @@
+# robots.txt - Complete AI Crawler Reference Template
+# Replace example.com with your domain
+
+User-agent: *
+Allow: /
+
+# === SEARCH ENGINES ===
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: BraveBot
+Allow: /
+
+# === AI SEARCH/RETRIEVAL BOTS (cite your content) ===
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: CopilotBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalfetcher
+Allow: /
+
+# === AI TRAINING BOTS (absorb content into model weights) ===
+# Decide: Allow (for visibility) or Disallow (for content protection)
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: TikTokSpider
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+# === AI DISCOVERY FILES ===
+# /llms.txt
+# /llms-full.txt
+# /ai.txt
+# /ai.json
+# /brand.txt
+# /.well-known/ai-plugin.json
+# /.well-known/agents.json
+# /.well-known/security.txt
+
+Sitemap: https://example.com/sitemap.xml

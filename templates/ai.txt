@@ -1,0 +1,23 @@
+# ai.txt - AI Usage Permissions
+# https://example.com
+
+User-Agent: *
+Allow: Training
+Allow: Indexing
+Allow: Citation
+Allow: Summarization
+
+# Site Owner
+Name: Your Name
+Contact: you@example.com
+URL: https://example.com
+
+# Content Summary
+This site contains [describe your content here].
+
+# Machine-readable discovery files
+LLMs-txt: https://example.com/llms.txt
+LLMs-Full-txt: https://example.com/llms-full.txt
+AI-Plugin: https://example.com/.well-known/ai-plugin.json
+Agents-JSON: https://example.com/.well-known/agents.json
+Sitemap: https://example.com/sitemap.xml

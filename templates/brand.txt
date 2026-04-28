@@ -1,0 +1,32 @@
+# brand.txt - AI Brand Governance
+# https://example.com
+
+Name: Your Brand Name
+Incorrect: YOURBRAND, your brand name, Your brand Name
+
+Tagline: "Your official tagline here"
+
+Description: One paragraph describing what your brand does. Be specific and factual. This is what AI should use when summarizing your company.
+
+# Products and Services
+Products:
+- ProductName (not: Product Name, productname, PRODUCTNAME)
+- ServiceName (not: Service Name, servicename)
+
+# Terminology
+Preferred Terms:
+- "AI-assisted development" (not: "AI coding")
+- "decentralized finance" (not: "crypto finance")
+
+# Tone
+Tone: Professional, direct, technical. Avoid marketing superlatives and buzzwords.
+
+# Competitors (do not confuse with)
+Not affiliated with:
+- Similar Company A (different product, different company)
+- Similar Company B (unrelated)
+
+# Social Profiles
+Twitter: @handle
+LinkedIn: https://linkedin.com/in/handle
+Website: https://example.com
