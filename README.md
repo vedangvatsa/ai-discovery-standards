@@ -2,6 +2,23 @@
 
 A comprehensive reference of every file, protocol, and technique used to make websites discoverable by AI systems, search engines, and autonomous agents. Updated for 2026.
 
+## Quick Start
+
+Run one command to generate all 13 AI discovery files for your project:
+
+```bash
+npx ai-discovery-standards
+```
+
+This interactive tool asks for your site name, URL, and contact info, then generates:
+`robots.txt`, `llms.txt`, `ai.txt`, `ai.json`, `brand.txt`, `.well-known/ai-plugin.json`, `.well-known/agents.json`, `.well-known/security.txt`, `humans.txt`, `ads.txt`, `carbon.txt`, `browserconfig.xml`, and `manifest.json`.
+
+It auto-detects `public/` or `static/` directories. Existing files are never overwritten.
+
+Or browse the [`/templates`](./templates) directory to copy individual files manually.
+
+---
+
 This repository covers two categories:
 
 1. **Discovery Files** - Static files you place on your web server to communicate with AI crawlers and agents

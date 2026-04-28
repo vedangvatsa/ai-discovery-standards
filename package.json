@@ -1,0 +1,20 @@
+{
+  "name": "ai-discovery-standards",
+  "version": "1.0.0",
+  "description": "Generate all AI discovery files for your website. One command to add robots.txt, llms.txt, ai.txt, brand.txt, agents.json, and more.",
+  "bin": {
+    "ai-discovery-standards": "./bin/setup.js"
+  },
+  "keywords": [
+    "ai", "seo", "aeo", "geo", "llms-txt", "robots-txt", "ai-discovery",
+    "chatgpt", "claude", "perplexity", "generative-engine-optimization",
+    "answer-engine-optimization", "schema", "structured-data"
+  ],
+  "author": "Vedang Vatsa",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedangvatsa/ai-discovery-standards.git"
+  },
+  "homepage": "https://github.com/vedangvatsa/ai-discovery-standards"
+}
