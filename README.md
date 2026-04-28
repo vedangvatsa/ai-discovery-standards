@@ -10,10 +10,27 @@ Run one command to generate all 13 AI discovery files for your project:
 npx ai-discovery-standards
 ```
 
+> If the package is not yet on npm, use the GitHub shorthand:
+> ```bash
+> npx github:vedangvatsa/ai-discovery-standards
+> ```
+
 This interactive tool asks for your site name, URL, and contact info, then generates:
 `robots.txt`, `llms.txt`, `ai.txt`, `ai.json`, `brand.txt`, `.well-known/ai-plugin.json`, `.well-known/agents.json`, `.well-known/security.txt`, `humans.txt`, `ads.txt`, `carbon.txt`, `browserconfig.xml`, and `manifest.json`.
 
 It auto-detects `public/` or `static/` directories. Existing files are never overwritten.
+
+### Claude Code Skill
+
+This repo includes a Claude Code command. Add it to your project:
+
+```bash
+# Copy the skill into your project
+mkdir -p .claude/commands
+curl -o .claude/commands/setup-ai-discovery.md https://raw.githubusercontent.com/vedangvatsa/ai-discovery-standards/main/.claude/commands/setup-ai-discovery.md
+```
+
+Then use `/setup-ai-discovery` in Claude Code to generate all files.
 
 Or browse the [`/templates`](./templates) directory to copy individual files manually.
 
