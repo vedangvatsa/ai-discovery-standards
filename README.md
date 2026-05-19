@@ -1,10 +1,10 @@
 # AI Discovery Standards
 
-A comprehensive reference of every file, protocol, and technique used to make websites discoverable by AI systems, search engines, and autonomous agents. Updated for 2026.
+A detailed reference of every file, protocol, and technique used to make websites discoverable by AI systems, search engines, and autonomous agents. 25 files across 9 categories. Updated for Q2 2026.
 
 ## Quick Start
 
-Run one command to generate all 13 AI discovery files for your project:
+Run one command to generate AI discovery files for your project:
 
 ```bash
 npx ai-discovery-standards
@@ -55,6 +55,11 @@ This repository covers two categories:
   - [.well-known/ai-plugin.json](#well-knownai-pluginjson)
   - [.well-known/agents.json](#well-knownagentsjson)
   - [.well-known/ai (IETF Draft)](#well-knownai-ietf-draft)
+  - [.well-known/mcp/server-card.json](#well-knownmcpserver-cardjson)
+  - [.well-known/tdmrep.json](#well-knowntdmrepjson)
+  - [.well-known/dnt-policy.txt](#well-knowndnt-policytxt)
+  - [openapi.json](#openapijson)
+  - [feed.json](#feedjson)
   - [sitemap.xml](#sitemapxml)
   - [security.txt](#securitytxt)
   - [humans.txt](#humanstxt)
@@ -64,6 +69,10 @@ This repository covers two categories:
   - [manifest.json](#manifestjson)
   - [favicon.svg](#faviconsvg)
   - [Structured Data (JSON-LD)](#structured-data-json-ld)
+- [Developer Agent Context Files](#developer-agent-context-files)
+  - [AGENTS.md](#agentsmd)
+  - [CLAUDE.md](#claudemd)
+  - [.cursorrules](#cursorrules)
 - [AI Crawler User Agents](#ai-crawler-user-agents)
   - [OpenAI](#openai)
   - [Anthropic (Claude)](#anthropic-claude)
@@ -356,6 +365,104 @@ The formal standardization attempt. An active Internet-Draft within the IETF pro
 
 ---
 
+### .well-known/mcp/server-card.json
+
+| Field | Value |
+|---|---|
+| **Location** | `/.well-known/mcp/server-card.json` |
+| **Format** | JSON |
+| **Standard** | MCP SEP-1649 (Agentic AI Foundation / Linux Foundation) |
+| **Purpose** | Discovery endpoint for Model Context Protocol servers |
+
+MCP Server Cards allow AI clients (IDE extensions, chat assistants, autonomous agents) to automatically detect, inspect, and configure connections to MCP servers without manual setup.
+
+**What it does:** Exposes structured metadata including protocol version, transport configuration (SSE, HTTP, WebSocket), available capabilities (tools, resources, prompts), and authentication requirements.
+
+**How it works:**
+1. AI client sends a `GET` request to `/.well-known/mcp/server-card.json`
+2. Server returns a JSON document describing its capabilities
+3. Client auto-negotiates transport and auth, establishing a connection
+
+**Status:** Proposed via SEP-1649 and SEP-1960. MCP governance transitioned from Anthropic to the Agentic AI Foundation (AAIF) under the Linux Foundation in December 2025. Enterprise discovery is a 2026 roadmap priority.
+
+---
+
+### .well-known/tdmrep.json
+
+| Field | Value |
+|---|---|
+| **Location** | `/.well-known/tdmrep.json` |
+| **Format** | JSON |
+| **Standard** | W3C TDMRep Community Group |
+| **Purpose** | Text and Data Mining rights reservation |
+
+The TDM Reservation Protocol implements the opt-out provision in Article 4 of the EU Copyright in the Digital Single Market (CDSM) Directive. It provides a machine-readable way for rightsholders to declare whether their content may be used for text and data mining, including AI model training.
+
+**Key fields:**
+- `tdm-reservation: 1` = rights reserved (opt-out of AI training)
+- `tdm-reservation: 0` = rights not reserved (allowing AI training)
+- `tdm-policy` = URL with licensing terms or contact information
+
+**Legal context:** The EU AI Act (Article 53) requires providers of general-purpose AI models to comply with TDM opt-outs expressed via machine-readable means. TDMRep is one of the recognized technical solutions.
+
+**Example:**
+
+```json
+{
+  "tdm-reservation": 1,
+  "tdm-policy": "https://example.com/ai-licensing"
+}
+```
+
+---
+
+### .well-known/dnt-policy.txt
+
+| Field | Value |
+|---|---|
+| **Location** | `/.well-known/dnt-policy.txt` |
+| **Format** | Plain text |
+| **Standard** | EFF Do Not Track Policy |
+| **Purpose** | Privacy compliance declaration |
+
+A formal, verifiable promise that your domain complies with the Electronic Frontier Foundation's Do Not Track (DNT) privacy standards. Privacy-focused browser extensions and tools check this file to determine whether a site respects user privacy preferences.
+
+**What it does:** Posting a copy of (or link to) the EFF's standard DNT policy at this well-known URI signals that your site does not track visitors who have enabled the DNT header.
+
+---
+
+### openapi.json
+
+| Field | Value |
+|---|---|
+| **Location** | `/api/openapi.json` or `/openapi.yaml` |
+| **Format** | JSON or YAML |
+| **Standard** | OpenAPI 3.1 (openapis.org) |
+| **Purpose** | Machine-readable API contract for agent tool discovery |
+
+The foundational specification for describing HTTP APIs. AI agents use OpenAPI specs to understand what endpoints are available, what parameters they accept, and what responses to expect.
+
+**Why it matters for AI:** When combined with `ai-plugin.json` or MCP Server Cards, an OpenAPI specification allows autonomous agents to discover and invoke your API endpoints without human intervention. This is the bridge between "your site has content" and "your site can do things."
+
+**Best practice:** Keep the spec accurate and minimal. Large, monolithic specs can overwhelm AI agents with context. Provide only the endpoints relevant to agent interactions.
+
+---
+
+### feed.json
+
+| Field | Value |
+|---|---|
+| **Location** | `/feed.json` |
+| **Format** | JSON |
+| **Standard** | JSON Feed 1.1 (jsonfeed.org) |
+| **Purpose** | Machine-readable feed alternative to RSS/Atom |
+
+JSON Feed provides the same functionality as RSS/Atom but in JSON format, which is significantly easier for AI agents and modern applications to parse. No XML parsing required.
+
+**Discovery:** Advertise via `<link rel="alternate" type="application/feed+json" href="/feed.json">` in your HTML `<head>`.
+
+---
+
 ### sitemap.xml
 
 | Field | Value |
@@ -459,6 +566,49 @@ Enables your site to be installed as a Progressive Web App. Defines the app name
 | **Purpose** | Scalable, theme-aware favicon |
 
 SVG favicons are supported by all modern browsers and adapt to light/dark mode via CSS media queries. They are resolution-independent and smaller than PNG/ICO alternatives.
+
+---
+
+## Developer Agent Context Files
+
+Project-specific instruction files that provide AI coding agents with the context they need to work within a codebase. These are not web-facing discovery files but repository-level metadata consumed by coding agents.
+
+### AGENTS.md
+
+| Field | Value |
+|---|---|
+| **Location** | Repository root |
+| **Format** | Markdown |
+| **Standard** | Emerging universal standard (agents.md) |
+| **Purpose** | Cross-tool project context for coding agents |
+
+The emerging universal standard for providing project context to AI coding assistants. A single file that works across tools (Claude Code, Cursor, Copilot, Windsurf). Contains project architecture, build commands, coding conventions, and constraints.
+
+**Best practice:** Keep it minimal. Research shows that excessively long context files can decrease agent performance. Focus on information the agent cannot infer by reading the codebase.
+
+### CLAUDE.md
+
+| Field | Value |
+|---|---|
+| **Location** | Repository root |
+| **Format** | Markdown |
+| **Standard** | Anthropic (Claude Code) |
+| **Purpose** | Claude-specific project context |
+
+Originally created for Claude Code. Defines project architecture, workflows, and conventions specifically for Claude-based agents. Can be placed in subdirectories for nested, context-specific instructions.
+
+### .cursorrules
+
+| Field | Value |
+|---|---|
+| **Location** | Repository root or `.cursor/rules/*.mdc` |
+| **Format** | Markdown / MDC |
+| **Standard** | Cursor IDE |
+| **Purpose** | Cursor-specific coding rules and context |
+
+Native to Cursor IDE. Historically a single file, now commonly managed via a `.cursor/rules/` directory containing multiple `.mdc` files for modular, context-aware rules that apply only when relevant.
+
+**Tip:** If using multiple tools, create an `AGENTS.md` as the single source of truth and symlink `CLAUDE.md` and `.cursorrules` to the same source to avoid configuration drift.
 
 ---
 
@@ -606,7 +756,7 @@ GEO extends AEO to focus specifically on appearing in AI-generated summaries acr
 
 **GEO strategies:**
 
-1. **Topical authority clusters.** Build comprehensive coverage of a subject across multiple pages. AI systems evaluate your overall domain expertise, not individual page keyword matches.
+1. **Topical authority clusters.** Build detailed coverage of a subject across multiple pages. AI systems evaluate your overall domain expertise, not individual page keyword matches.
 
 2. **Semantic linking.** Use `sameAs` in schema to connect your entities to canonical references (Wikipedia, Wikidata). This helps AI systems disambiguate your content from similar sources.
 
@@ -696,11 +846,17 @@ Priority order for maximum AI discoverability:
 
 - [ ] `.well-known/ai-plugin.json` (if you have an API)
 - [ ] `.well-known/agents.json` (if you expose agent capabilities)
+- [ ] `.well-known/mcp/server-card.json` (if you run an MCP server)
+- [ ] `.well-known/tdmrep.json` (EU compliance)
+- [ ] `.well-known/dnt-policy.txt` (privacy signal)
+- [ ] `openapi.json` (if you have an API)
+- [ ] `feed.json` (JSON Feed alternative to RSS)
 - [ ] `humans.txt`
 - [ ] `ads.txt`
 - [ ] `carbon.txt`
 - [ ] `browserconfig.xml`
 - [ ] `favicon.svg`
+- [ ] `AGENTS.md` / `CLAUDE.md` / `.cursorrules` (for repositories)
 
 ---
 
@@ -741,6 +897,12 @@ templates/
 - [IAB ads.txt](https://iabtechlab.com/ads-txt/) - Authorized Digital Sellers
 - [carbontxt.org](https://carbontxt.org) - Carbon transparency
 - [humanstxt.org](https://humanstxt.org) - humans.txt convention
+- [modelcontextprotocol.io](https://modelcontextprotocol.io) - MCP specification
+- [W3C TDMRep](https://www.w3.org/community/tdmrep/) - Text and Data Mining reservation
+- [jsonfeed.org](https://jsonfeed.org) - JSON Feed specification
+- [EFF DNT Policy](https://www.eff.org/dnt-policy) - Do Not Track standard
+- [agents.md](https://agents.md) - Universal agent context file
+- [OpenAPI 3.1](https://spec.openapis.org/oas/v3.1.0) - API specification standard
 
 ---
 
