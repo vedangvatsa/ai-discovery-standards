@@ -111,6 +111,33 @@ Allow: /
 User-agent: meta-externalfetcher
 Allow: /
 
+User-agent: Gemini-Deep-Research
+Allow: /
+
+User-agent: Google-NotebookLM
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: TavilyBot
+Allow: /
+
+User-agent: KagiBot
+Allow: /
+
+User-agent: PhindBot
+Allow: /
+
+User-agent: GrokBot
+Allow: /
+
+User-agent: xAI-Bot
+Allow: /
+
 # AI Training Bots
 User-agent: GPTBot
 Allow: /
@@ -229,6 +256,21 @@ ${ownerTwitter ? `Twitter: ${ownerTwitter}` : ''}
 Website: ${siteUrl}
 
 Tone: Professional, direct, factual.
+`) ? 1 : 0;
+
+  // --- agents.txt ---
+  created += writeFile(path.join(outDir, 'agents.txt'), `# agents.txt - Agent Protocol Capability Declaration
+# ${siteUrl}
+# https://agents-txt.com
+
+# MCP server endpoint (if you run an MCP server)
+# MCP: ${siteUrl}/mcp
+
+# A2A AgentCard (if you expose agent capabilities)
+# A2A: ${siteUrl}/.well-known/agents.json
+
+# Skill packages (if you offer agent skills)
+# Skills: ${siteUrl}/skills/index.md
 `) ? 1 : 0;
 
   // --- .well-known/ai-plugin.json ---

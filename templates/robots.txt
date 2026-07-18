@@ -59,6 +59,33 @@ Allow: /
 User-agent: meta-externalfetcher
 Allow: /
 
+User-agent: Gemini-Deep-Research
+Allow: /
+
+User-agent: Google-NotebookLM
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: TavilyBot
+Allow: /
+
+User-agent: KagiBot
+Allow: /
+
+User-agent: PhindBot
+Allow: /
+
+User-agent: GrokBot
+Allow: /
+
+User-agent: xAI-Bot
+Allow: /
+
 # === AI TRAINING BOTS (absorb content into model weights) ===
 # Decide: Allow (for visibility) or Disallow (for content protection)
 
@@ -98,6 +125,7 @@ Allow: /
 # /ai.txt
 # /ai.json
 # /brand.txt
+# /agents.txt
 # /.well-known/ai-plugin.json
 # /.well-known/agents.json
 # /.well-known/security.txt

@@ -1,6 +1,6 @@
 # AI Discovery Standards
 
-A detailed reference of every file, protocol, and technique used to make websites discoverable by AI systems, search engines, and autonomous agents. 25 files across 9 categories. Updated for Q2 2026.
+A detailed reference of every file, protocol, and technique used to make websites discoverable by AI systems, search engines, and autonomous agents. 26 files across 9 categories. Updated for Q3 2026.
 
 ## Quick Start
 
@@ -16,7 +16,7 @@ npx ai-discovery-standards
 > ```
 
 This interactive tool asks for your site name, URL, and contact info, then generates:
-`robots.txt`, `llms.txt`, `ai.txt`, `ai.json`, `brand.txt`, `.well-known/ai-plugin.json`, `.well-known/agents.json`, `.well-known/security.txt`, `humans.txt`, `ads.txt`, `carbon.txt`, `browserconfig.xml`, and `manifest.json`.
+`robots.txt`, `llms.txt`, `ai.txt`, `ai.json`, `brand.txt`, `agents.txt`, `.well-known/ai-plugin.json`, `.well-known/agents.json`, `.well-known/security.txt`, `humans.txt`, `ads.txt`, `carbon.txt`, `browserconfig.xml`, and `manifest.json`.
 
 It auto-detects `public/` or `static/` directories. Existing files are never overwritten.
 
@@ -54,6 +54,7 @@ This repository covers two categories:
   - [brand.txt](#brandtxt)
   - [.well-known/ai-plugin.json](#well-knownai-pluginjson)
   - [.well-known/agents.json](#well-knownagentsjson)
+  - [agents.txt](#agentstxt)
   - [.well-known/ai (IETF Draft)](#well-knownai-ietf-draft)
   - [.well-known/mcp/server-card.json](#well-knownmcpserver-cardjson)
   - [.well-known/tdmrep.json](#well-knowntdmrepjson)
@@ -82,6 +83,8 @@ This repository covers two categories:
   - [Apple](#apple)
   - [Amazon](#amazon)
   - [ByteDance](#bytedance)
+  - [xAI (Grok)](#xai-grok)
+  - [Mistral](#mistral)
   - [Other Crawlers](#other-crawlers)
 - [Optimization Techniques](#optimization-techniques)
   - [AEO (Answer Engine Optimization)](#aeo-answer-engine-optimization)
@@ -105,9 +108,9 @@ This repository covers two categories:
 
 The original machine-readable file for the web. Every search engine and AI crawler checks this first. It works on an honor system: reputable bots (Googlebot, GPTBot, ClaudeBot) respect it, while rogue scrapers may ignore it entirely.
 
-**What it does:** Declares per-bot access policies using `User-agent` and `Allow`/`Disallow` directives. Also specifies the sitemap location.
+Declares per-bot access policies using `User-agent` and `Allow`/`Disallow` directives. Also specifies the sitemap location.
 
-**Why it matters for AI:** In 2026, robots.txt is the primary mechanism for controlling whether your content feeds into AI training datasets. You can selectively allow search/retrieval bots (which cite you in answers) while blocking training bots (which absorb your content into model weights without attribution).
+In 2026, robots.txt is the primary mechanism for controlling whether your content feeds into AI training datasets. You can selectively allow search/retrieval bots (which cite you in answers) while blocking training bots (which absorb your content into model weights without attribution).
 
 **Example:**
 
@@ -138,7 +141,7 @@ Disallow: /
 Sitemap: https://example.com/sitemap.xml
 ```
 
-**Key distinction:** Blocking `GPTBot` prevents OpenAI from using your content for training. Blocking `OAI-SearchBot` prevents your site from appearing in ChatGPT search results. These are separate decisions.
+Blocking `GPTBot` prevents OpenAI from using your content for training. Blocking `OAI-SearchBot` prevents your site from appearing in ChatGPT search results. These are separate decisions.
 
 ---
 
@@ -153,9 +156,9 @@ Sitemap: https://example.com/sitemap.xml
 
 Created by Jeremy Howard (Answer.AI) in 2024. The idea: most websites are cluttered HTML that wastes tokens when an LLM tries to read them. `llms.txt` gives AI a clean, structured Markdown summary of who you are and what content matters.
 
-**What it does:** Provides an H1 title, a blockquote summary, and organized links to your most important pages with short descriptions. Think of it as a table of contents written for machines.
+Provides an H1 title, a blockquote summary, and organized links to your most important pages with short descriptions. Think of it as a table of contents written for machines.
 
-**Why it matters:** When an AI system encounters your domain, it can read this file first to understand your site's purpose, authority, and content structure without parsing hundreds of HTML pages. This saves tokens and improves the accuracy of citations.
+When an AI system encounters your domain, it can read this file first to understand your site's purpose, authority, and content structure without parsing hundreds of HTML pages. This saves tokens and improves the accuracy of citations.
 
 **Format specification:**
 
@@ -187,9 +190,9 @@ Created by Jeremy Howard (Answer.AI) in 2024. The idea: most websites are clutte
 
 The extended companion to `llms.txt`. While `llms.txt` provides links and summaries, `llms-full.txt` contains the actual full text of your key content. This allows AI systems to ingest your content directly without crawling individual pages.
 
-**What it does:** Contains complete article text, documentation, or reference material in a single Markdown file.
+Contains complete article text, documentation, or reference material in a single Markdown file.
 
-**Why it matters:** Useful for sites with high-value reference content (documentation, glossaries, educational material). Reduces the number of HTTP requests an AI system needs to understand your content.
+Useful for sites with high-value reference content (documentation, glossaries, educational material). Reduces the number of HTTP requests an AI system needs to understand your content.
 
 ---
 
@@ -204,7 +207,7 @@ The extended companion to `llms.txt`. While `llms.txt` provides links and summar
 
 A more specific alternative to robots.txt for AI-related concerns. While robots.txt controls crawl access, ai.txt declares what AI systems may do with the content they find: training, indexing, citation, summarization.
 
-**What it does:** Specifies the site owner, contact information, and explicit permission grants or denials for different AI use cases.
+Specifies the site owner, contact information, and explicit permission grants or denials for different AI use cases.
 
 **Example:**
 
@@ -236,7 +239,7 @@ URL: https://example.com
 
 The structured, programmatic counterpart to ai.txt. Provides a JSON object that AI agents can parse to understand your site's content topology, permissions, and available resources.
 
-**What it does:** Maps your content structure (courses, articles, glossaries) in a format that agents can consume without HTML parsing. Includes permission declarations, content categories, and links to other discovery files.
+Maps your content structure (courses, articles, glossaries) in a format that agents can consume without HTML parsing. Includes permission declarations, content categories, and links to other discovery files.
 
 **Example:**
 
@@ -272,7 +275,7 @@ The structured, programmatic counterpart to ai.txt. Provides a JSON object that 
 
 Addresses a specific problem: AI models sometimes misspell brand names, use outdated terminology, or describe products incorrectly. `brand.txt` gives AI explicit instructions on correct naming, terminology, and tone.
 
-**What it does:** Defines the canonical brand name (with exact capitalization), preferred and prohibited terminology, taglines, and tone guidance.
+Defines the canonical brand name (with exact capitalization), preferred and prohibited terminology, taglines, and tone guidance.
 
 **Example:**
 
@@ -293,7 +296,7 @@ Competitors (do not confuse with):
 - Beta Inc (different company, different product)
 ```
 
-**Why it matters:** Reduces AI hallucinations about your brand. When ChatGPT, Perplexity, or Google Gemini generates a response mentioning your company, this file helps ensure accuracy.
+Reduces AI hallucinations about your brand. When ChatGPT, Perplexity, or Google Gemini generates a response mentioning your company, this file helps ensure accuracy.
 
 ---
 
@@ -308,7 +311,7 @@ Competitors (do not confuse with):
 
 Originally created for ChatGPT plugins. Describes your site's capabilities, authentication requirements, and API surface in a format that allows AI systems to use your service as a tool.
 
-**What it does:** Provides metadata (name, description, logo), authentication configuration, and a link to an OpenAPI specification that describes available endpoints.
+Provides metadata (name, description, logo), authentication configuration, and a link to an OpenAPI specification that describes available endpoints.
 
 **Example:**
 
@@ -342,9 +345,46 @@ Originally created for ChatGPT plugins. Describes your site's capabilities, auth
 
 Closely tied to Google's Agent-to-Agent (A2A) protocol, now under the Linux Foundation. Serves as a digital business card for an agent or service, advertising its identity, capabilities, supported protocols, and communication endpoints.
 
-**What it does:** Enables autonomous agents to discover what other agents or services can do, how to authenticate, and how to initiate collaboration, all without human intervention.
+Enables autonomous agents to discover what other agents or services can do, how to authenticate, and how to initiate collaboration, all without human intervention.
 
-**Why it differs from ai-plugin.json:** While ai-plugin.json is about exposing APIs to a single AI model (ChatGPT), agents.json is about peer-to-peer agent interoperability across vendors and platforms.
+While ai-plugin.json is about exposing APIs to a single AI model (ChatGPT), agents.json is about peer-to-peer agent interoperability across vendors and platforms.
+
+---
+
+### agents.txt
+
+| Field | Value |
+|---|---|
+| **Location** | `/agents.txt` (companion: `/agents.json`) |
+| **Format** | Plain text (companion: JSON) |
+| **Standard** | Community convention (agents-txt.com) |
+| **Purpose** | Declares agent-interaction protocols and capabilities |
+
+A lightweight, protocol-agnostic capability declaration format that publicly announces what agent-interaction protocols and features a website supports. Where `.well-known/agents.json` (A2A) is about agent identity and discovery, `agents.txt` is about declaring what your site can do for agents: MCP endpoints, skill packages, payment protocols, authentication flows, and A2A agent cards.
+
+Provides a plain-text file at `/agents.txt` with structured directives (similar to robots.txt syntax) that declare supported protocols: MCP endpoints, A2A AgentCard URLs, UCP profiles, WebMCP pages, payment protocols, and skill packages. The companion `/agents.json` provides the same information in a machine-parseable JSON format with richer detail (pricing, chain identifiers, transport types).
+
+**Key directives:**
+- `MCP:` — URL of an MCP server endpoint
+- `A2A:` — URL of an A2A AgentCard
+- `Skills:` — URL of a skill package (SKILL.md or index)
+- `Protocols:` — Supported payment protocol identifiers
+- `Authorization:` — Supported authorization protocol identifiers
+- `UCP:` — URL of a UCP profile
+- `WebMCP:` — URL that registers in-browser WebMCP tools
+
+**Example:**
+
+```text
+# agents.txt
+MCP: https://example.com/mcp
+A2A: https://example.com/.well-known/agents.json
+Skills: https://example.com/skills/index.md
+```
+
+Unlike access-control mechanisms that are purely restrictive, `agents.txt` declares supported protocols so agents can discover MCP endpoints, skill packages, payment protocols, and authentication flows directly, without speculative probing or HTML scraping.
+
+**Status:** Active community standard maintained at [agents-txt.com](https://agents-txt.com). Not an IETF or W3C standard. Gaining adoption alongside the A2A protocol and MCP ecosystem.
 
 ---
 
@@ -359,7 +399,16 @@ Closely tied to Google's Agent-to-Agent (A2A) protocol, now under the Linux Foun
 
 The formal standardization attempt. An active Internet-Draft within the IETF proposing a structured JSON document at `/.well-known/ai` that describes a service's identity, available actions, authentication requirements, and operational hints.
 
-**Status:** Work in progress. Published March 23, 2026. Valid for six months. Not yet an RFC. The IETF ecosystem has 15+ competing drafts on AI agent discovery, with no consensus yet.
+**Status:** Work in progress. Published March 23, 2026. Valid for six months. Not yet an RFC. The IETF ecosystem has 20+ competing drafts on AI agent discovery, with no consensus yet.
+
+**Key competing IETF drafts to track:**
+- **draft-aiendpoint-ai-discovery** — The `/.well-known/ai` endpoint itself (this section)
+- **draft-pro-adp-agent-discovery** — Agent Discovery Protocol (ADP) v1.1, with DNS-AID integration, Ed25519 identity, and AGP WebSocket messaging
+- **draft-mozleywilliams-dnsop-dnsaid** — DNS for AI Discovery (DNS-AID), using SVCB records for agent discovery
+- **draft-serra-mcp-discovery-uri** — Defines the `mcp://` URI scheme and `/.well-known/mcp-server` with DNS TXT record discovery
+- **draft-rehfeld-bot-service-index** — Bot Service Index (BSI), a global federated discovery infrastructure
+- **draft-batum-aidre** — AI Discovery and Retrieval Endpoint at `/.well-known/ai-discovery`
+- **AI Card / AI Catalog** — `.well-known/ai-catalog.json` from the Agent-Card project, a protocol-agnostic decentralized discovery mechanism
 
 **How to track:** Monitor [IETF Datatracker](https://datatracker.ietf.org/doc/) for updates. Search "AI agent discovery" to see active proposals.
 
@@ -371,19 +420,19 @@ The formal standardization attempt. An active Internet-Draft within the IETF pro
 |---|---|
 | **Location** | `/.well-known/mcp/server-card.json` |
 | **Format** | JSON |
-| **Standard** | MCP SEP-1649 (Agentic AI Foundation / Linux Foundation) |
+| **Standard** | MCP SEP-2127 (Agentic AI Foundation / Linux Foundation) |
 | **Purpose** | Discovery endpoint for Model Context Protocol servers |
 
 MCP Server Cards allow AI clients (IDE extensions, chat assistants, autonomous agents) to automatically detect, inspect, and configure connections to MCP servers without manual setup.
 
-**What it does:** Exposes structured metadata including protocol version, transport configuration (SSE, HTTP, WebSocket), available capabilities (tools, resources, prompts), and authentication requirements.
+Exposes structured metadata including protocol version, transport configuration (SSE, HTTP, WebSocket), available capabilities (tools, resources, prompts), and authentication requirements.
 
 **How it works:**
 1. AI client sends a `GET` request to `/.well-known/mcp/server-card.json`
 2. Server returns a JSON document describing its capabilities
 3. Client auto-negotiates transport and auth, establishing a connection
 
-**Status:** Proposed via SEP-1649 and SEP-1960. MCP governance transitioned from Anthropic to the Agentic AI Foundation (AAIF) under the Linux Foundation in December 2025. Enterprise discovery is a 2026 roadmap priority.
+**Status:** Proposed via SEP-2127 (January 2026), superseding earlier SEP-1649 and SEP-1960 proposals. The normative spec is now maintained in the [experimental-ext-server-card](https://github.com/modelcontextprotocol/experimental-ext-server-card) repository by a dedicated Server Card Working Group. MCP governance transitioned from Anthropic to the Agentic AI Foundation (AAIF) under the Linux Foundation in December 2025. Enterprise discovery is a 2026 roadmap priority.
 
 ---
 
@@ -427,7 +476,7 @@ The TDM Reservation Protocol implements the opt-out provision in Article 4 of th
 
 A formal, verifiable promise that your domain complies with the Electronic Frontier Foundation's Do Not Track (DNT) privacy standards. Privacy-focused browser extensions and tools check this file to determine whether a site respects user privacy preferences.
 
-**What it does:** Posting a copy of (or link to) the EFF's standard DNT policy at this well-known URI signals that your site does not track visitors who have enabled the DNT header.
+Posting a copy of (or link to) the EFF's standard DNT policy at this well-known URI signals that your site does not track visitors who have enabled the DNT header.
 
 ---
 
@@ -442,9 +491,9 @@ A formal, verifiable promise that your domain complies with the Electronic Front
 
 The foundational specification for describing HTTP APIs. AI agents use OpenAPI specs to understand what endpoints are available, what parameters they accept, and what responses to expect.
 
-**Why it matters for AI:** When combined with `ai-plugin.json` or MCP Server Cards, an OpenAPI specification allows autonomous agents to discover and invoke your API endpoints without human intervention. This is the bridge between "your site has content" and "your site can do things."
+When combined with `ai-plugin.json` or MCP Server Cards, an OpenAPI specification allows autonomous agents to discover and invoke your API endpoints without human intervention. This is the bridge between "your site has content" and "your site can do things."
 
-**Best practice:** Keep the spec accurate and minimal. Large, monolithic specs can overwhelm AI agents with context. Provide only the endpoints relevant to agent interactions.
+Keep the spec accurate and minimal. Large, monolithic specs can overwhelm AI agents with context. Provide only the endpoints relevant to agent interactions.
 
 ---
 
@@ -474,7 +523,7 @@ JSON Feed provides the same functionality as RSS/Atom but in JSON format, which 
 
 The foundational crawl guide. Lists every URL on your site along with last-modified dates, change frequency, and priority hints. Every search engine and most AI crawlers use this.
 
-**Why it matters for AI:** AI search bots (OAI-SearchBot, PerplexityBot) use sitemaps to discover content they should index for citation in AI-generated answers.
+AI search bots (OAI-SearchBot, PerplexityBot) use sitemaps to discover content they should index for citation in AI-generated answers.
 
 ---
 
@@ -584,7 +633,7 @@ Project-specific instruction files that provide AI coding agents with the contex
 
 The emerging universal standard for providing project context to AI coding assistants. A single file that works across tools (Claude Code, Cursor, Copilot, Windsurf). Contains project architecture, build commands, coding conventions, and constraints.
 
-**Best practice:** Keep it minimal. Research shows that excessively long context files can decrease agent performance. Focus on information the agent cannot infer by reading the codebase.
+Keep it minimal. Excessively long context files can decrease agent performance. Focus on information the agent cannot infer by reading the codebase.
 
 ### CLAUDE.md
 
@@ -640,7 +689,21 @@ The most impactful technical SEO and AEO mechanism. JSON-LD schema tells search 
 
 ## AI Crawler User Agents
 
-A complete reference of all known AI crawler user-agent strings as of April 2026. Organized by company and purpose (Training, Search, User-triggered).
+A complete reference of all known AI crawler user-agent strings as of July 2026. Organized by company and purpose (Training, Search, User-triggered).
+
+### Crawler Categories
+
+AI crawlers fall into five functionally distinct categories:
+
+| Category | Purpose | Example Bots | Respects robots.txt |
+|---|---|---|---|
+| 1. Training Crawlers | Fetch content to train LLMs | GPTBot, ClaudeBot, Amazonbot, meta-externalagent, CCBot | Vendor-dependent |
+| 2. Search & Retrieval Crawlers | Fetch to build AI retrieval indexes | OAI-SearchBot, Claude-SearchBot, PerplexityBot, Bingbot | Yes (vendor-documented) |
+| 3. User-Triggered Fetchers | Fetch when a specific human asks | ChatGPT-User, Claude-User, Perplexity-User, MistralAI-User | Vendor-dependent |
+| 4. Opt-Out Tokens | robots.txt control directives (not crawlers) | Google-Extended, Applebot-Extended | N/A |
+| 5. Undeclared & Masquerading | Scrape without identifying | xAI Grok (residential IP rotation), some Bytespider traffic | No |
+
+Blocking a training bot (e.g., GPTBot) does not affect your visibility in AI search results. Blocking a search bot (e.g., OAI-SearchBot) removes you from that AI's search entirely. These are separate decisions.
 
 ### OpenAI
 
@@ -664,11 +727,13 @@ Note: `anthropic-ai` and `claude-web` are deprecated tokens.
 
 | Bot | Purpose | robots.txt Token |
 |---|---|---|
-| Googlebot | Search indexing | `Googlebot` |
+| Googlebot | Search indexing + AI Overviews | `Googlebot` |
 | Google-Extended | Controls Gemini training/grounding | `Google-Extended` |
 | GoogleOther | Non-search Google products | `GoogleOther` |
+| Gemini-Deep-Research | Deep research agent | `Gemini-Deep-Research` |
+| Google-NotebookLM | NotebookLM agent | `Google-NotebookLM` |
 
-Important: `Google-Extended` is not a separate crawler. It is a robots.txt token that controls whether content crawled by Googlebot feeds into Gemini training.
+Important: `Google-Extended` is not a separate crawler. It is a robots.txt token that controls whether content crawled by Googlebot feeds into Gemini training. `Gemini-Deep-Research` and `Google-NotebookLM` are user-triggered agents that fetch pages during specific research or notebook tasks.
 
 ### Perplexity
 
@@ -705,6 +770,25 @@ Important: `Google-Extended` is not a separate crawler. It is a robots.txt token
 | Bytespider | TikTok/AI training | `Bytespider` |
 | TikTokSpider | TikTok content | `TikTokSpider` |
 
+Note: Bytespider has known compliance issues with robots.txt. Consider rate-limiting or server-side blocking in addition to robots.txt directives.
+
+### xAI (Grok)
+
+| Bot | Purpose | robots.txt Token |
+|---|---|---|
+| GrokBot | Grok training | `GrokBot` |
+| xAI-Bot | Index/retrieval | `xAI-Bot` |
+
+Note: xAI publishes no official crawler documentation page. Multiple behavioral reports describe Grok's retrieval traffic as using residential IP rotation and spoofed browser user agents, making it functionally indistinguishable from human visitors at the UA layer. Treat xAI crawler compliance as unverifiable.
+
+### Mistral
+
+| Bot | Purpose | robots.txt Token |
+|---|---|---|
+| MistralAI-User | Le Chat live retrieval (user-triggered) | `MistralAI-User` |
+
+Note: MistralAI-User is a user-triggered retrieval fetcher (Category 3), not a training crawler. It fetches pages when a Le Chat user issues a query requiring real-time data. Respects robots.txt per [Mistral documentation](https://docs.mistral.ai/robots).
+
 ### Other Crawlers
 
 | Bot | Company | Purpose | robots.txt Token |
@@ -712,11 +796,15 @@ Important: `Google-Extended` is not a separate crawler. It is a robots.txt token
 | CCBot | Common Crawl | Open training datasets | `CCBot` |
 | cohere-ai | Cohere | Model training | `cohere-ai` |
 | YouBot | You.com | Search | `YouBot` |
-| BraveBot | Brave | Brave Search | `BraveBot` |
+| BraveBot | Brave | Brave Search (used by Claude) | `BraveBot` |
 | DuckDuckBot | DuckDuckGo | Search | `DuckDuckBot` |
+| DuckAssistBot | DuckDuckGo | AI assistant indexing | `DuckAssistBot` |
 | CopilotBot | Microsoft | Copilot | `CopilotBot` |
 | Diffbot | Diffbot | Knowledge graph | `Diffbot` |
 | YandexBot | Yandex | Search | `YandexBot` |
+| TavilyBot | Tavily | AI search retrieval | `TavilyBot` |
+| KagiBot | Kagi | Search | `KagiBot` |
+| PhindBot | Phind | AI search | `PhindBot` |
 
 ---
 
@@ -837,6 +925,7 @@ Priority order for maximum AI discoverability:
 - [ ] `ai.txt` with explicit AI permissions
 - [ ] `ai.json` with structured content map
 - [ ] `brand.txt` with naming and terminology rules
+- [ ] `agents.txt` with agent protocol declarations (MCP, A2A, skills)
 - [ ] `security.txt` (RFC 9116)
 - [ ] `manifest.json` for PWA support
 - [ ] `HowTo` and `Course` schema where applicable
@@ -873,6 +962,7 @@ templates/
   brand.txt           # Brand governance
   ai-plugin.json      # ChatGPT plugin manifest
   agents.json         # A2A agent card
+  agents.txt          # Agent protocol declarations
   security.txt        # RFC 9116 template
   humans.txt          # Team credits
   carbon.txt          # Sustainability disclosure
@@ -892,7 +982,14 @@ templates/
 - [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116) - security.txt
 - [RFC 8615](https://datatracker.ietf.org/doc/html/rfc8615) - .well-known URIs
 - [Schema.org](https://schema.org) - Structured data vocabulary
+- [agents-txt.com](https://agents-txt.com) - agents.txt specification
 - [IETF Datatracker](https://datatracker.ietf.org/doc/) - Active AI discovery drafts
+- [IETF AI Discovery Endpoint](https://www.ietf.org/archive/id/draft-aiendpoint-ai-discovery-00.html) - /.well-known/ai draft
+- [IETF ADP](https://datatracker.ietf.org/doc/draft-pro-adp-agent-discovery/) - Agent Discovery Protocol
+- [IETF DNS-AID](https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/) - DNS for AI Discovery
+- [IETF MCP Discovery URI](https://datatracker.ietf.org/doc/html/draft-serra-mcp-discovery-uri) - mcp:// URI scheme
+- [MCP Server Cards (SEP-2127)](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/sep/mcp-server-cards/seps/2127-mcp-server-cards.md) - Server Card extension
+- [Agent-Card / AI Catalog](https://github.com/Agent-Card/ai-card) - Decentralized agent discovery
 - [sitemaps.org](https://sitemaps.org) - Sitemap protocol
 - [IAB ads.txt](https://iabtechlab.com/ads-txt/) - Authorized Digital Sellers
 - [carbontxt.org](https://carbontxt.org) - Carbon transparency

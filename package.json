@@ -1,6 +1,6 @@
 {
   "name": "ai-discovery-standards",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generate all AI discovery files for your website. One command to add robots.txt, llms.txt, ai.txt, brand.txt, agents.json, and more.",
   "bin": {
     "ai-discovery-standards": "./bin/setup.js"

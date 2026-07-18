@@ -1,0 +1,26 @@
+# agents.txt - Agent Protocol Capability Declaration
+# https://agents-txt.com
+# Replace example.com with your domain
+
+# MCP server endpoint (if you run an MCP server)
+# MCP: https://example.com/mcp
+
+# A2A AgentCard (if you expose agent capabilities)
+# A2A: https://example.com/.well-known/agents.json
+
+# Skill packages (if you offer agent skills)
+# Skills: https://example.com/skills/index.md
+
+# UCP profiles (if you use Universal Communication Protocol)
+# UCP: https://example.com/.well-known/ucp.json
+
+# WebMCP pages (if you register in-browser WebMCP tools)
+# WebMCP: https://example.com/webmcp
+
+# Payment protocols (if you accept agent-initiated payments)
+# Protocols: x402, mpp
+# Payments: required
+
+# Authorization protocols (if agents must authenticate)
+# Authorization: oauth2, api-key
+# Identity: required
