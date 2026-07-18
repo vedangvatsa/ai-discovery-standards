@@ -1,7 +1,7 @@
 {
   "name": "ai-discovery-standards",
-  "version": "1.2.0",
-  "description": "Generate AI discovery files for your website: robots.txt, llms.txt, agents.txt, A2A agent-card, TDMRep, and more.",
+  "version": "2.0.0",
+  "description": "Full auto-implementation of AI discovery files: scan project, write robots/llms/agents/TDMRep, wire layout head tags and JSON-LD.",
   "bin": {
     "ai-discovery-standards": "./bin/setup.js"
   },

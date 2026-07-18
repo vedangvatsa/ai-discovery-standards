@@ -1,111 +1,87 @@
-# AI Discovery Standards Setup
+# AI Discovery Standards — full auto-implementation
 
-When asked to set up AI discovery files for a website project, follow this procedure.
+When asked to set up AI discovery files, implement as much as possible automatically. Prefer the CLI; fall back to the manual procedure only if the CLI cannot run.
 
-## Step 1: Detect the project structure
+## Preferred path (full auto)
 
-Look for a `public/` directory (Next.js, Vite, Create React App) or `static/` directory (Hugo, Astro). If neither exists, use the project root.
+From the **target project root** (not necessarily this repo):
 
-## Step 2: Gather required information
+```bash
+npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan
+```
 
-Ask the user for:
-- Site name
-- Site URL (with https://)
-- Owner name
-- Contact email
-- Twitter/X handle (optional)
-- One-line site description
-- Theme color hex (default: `#0f172a`)
-- Whether AI training crawlers should be allowed by default (default: yes)
+Useful flags:
 
-## Step 3: Generate these files
+| Flag | Meaning |
+|------|---------|
+| `--yes` / `-y` | Non-interactive; read package.json + flags |
+| `--scan` | Scan routes/content for `llms.txt` / sitemap (implied by `--yes`) |
+| `--force` | Overwrite existing discovery files |
+| `--url=https://...` | Canonical site URL (required quality; override package homepage) |
+| `--name="Site"` | Site name |
+| `--email=you@domain` | Contact email for security.txt / ai.txt |
+| `--owner="Name"` | Owner / org |
+| `--deny-training` | Disallow GPTBot, ClaudeBot, Google-Extended, etc. |
+| `--allow-training` | Allow training crawlers (default with `--yes`) |
+| `--with-a2a` | Emit A2A `agent-card.json` stub (only if they really run A2A) |
+| `--with-plugin` | Force legacy `ai-plugin.json` |
+| `--out=public` | Force output directory |
+| `--dry-run` | Print actions only |
 
-Never overwrite existing files. Skip any that already exist.
+If the user gave a live domain, always pass `--url=https://their-domain`.
 
-### 1. robots.txt
-Include vendor-documented AI tokens, grouped clearly:
-- Search engines: `Googlebot`, `Bingbot`, `DuckDuckBot`, `YandexBot`
-- AI search/retrieval: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, `Applebot`
-- User-triggered fetchers: `ChatGPT-User`, `Claude-User`, `Perplexity-User`, `MistralAI-User`, `meta-externalfetcher`, `Google-NotebookLM`, `Gemini-Deep-Research` (note that some user-triggered fetchers may ignore robots.txt)
-- Ads validation: `OAI-AdsBot` (OpenAI; not for training)
-- Training / model-use controls: `GPTBot`, `ClaudeBot`, `Google-Extended` (control token, not a separate crawler), `GoogleOther`, `Applebot-Extended`, `meta-externalagent`, `Amazonbot`, `CCBot`, `cohere-ai`, `Bytespider`, `Diffbot`
-- Set training tokens to `Allow: /` or `Disallow: /` based on the user's training preference
-- Include `Sitemap:`
-- Optionally include a commented `Content-Signal:` line for Cloudflare Content Signals / AIPREF-related preferences
+After the CLI finishes:
 
-### 2. llms.txt
-Markdown with H1 site name, blockquote description, and links to key pages. Scan the project to auto-populate page links when possible.
+1. Open generated `llms.txt` and fix titles/descriptions that look like raw slugs.
+2. Confirm training allow/deny matches the user's policy.
+3. If the project has a real OpenAPI file, ensure `/.well-known/ai-plugin.json` points at it (CLI does this when it finds openapi).
+4. Do **not** leave a production A2A card advertising a fake `/a2a` endpoint unless the user asked for `--with-a2a` and will implement the endpoint.
+5. Add page-level JSON-LD (`Article`, `FAQPage`, `Person`) on important content pages when those types apply.
+6. Ensure the host serves files from the static output dir at the domain root (`/robots.txt`, `/llms.txt`, `/.well-known/*`).
 
-### 3. ai.txt
-Informal community convention (not a formal standard). Plain text with permissions (Training/Indexing/Citation/Summarization), owner info, and links to discovery files.
+## What full auto implements
 
-### 4. ai.json
-Informal community convention. JSON with version, name, url, description, author, permissions, and discovery links.
+- Project detection (`public/` / `static/`, Next/Vite/Astro/etc.)
+- Route/content scan into `llms.txt` (and `llms-full.txt` when MD/MDX sources exist)
+- `robots.txt` with search vs training split
+- `sitemap.xml` when the framework does not already define a sitemap route
+- `agents.txt` + root `/agents.json` (agents-txt.com)
+- `ai.txt`, `ai.json`, `brand.txt`, `humans.txt`, `ads.txt`, `carbon.txt` (TOML v0.5)
+- `manifest.json`, `browserconfig.xml`
+- `/.well-known/security.txt`, `/.well-known/tdmrep.json`
+- `schema-org.json` + best-effort injection of Organization JSON-LD and discovery `<link>` tags into `layout.tsx` / `index.html`
+- Legacy `ai-plugin.json` only when OpenAPI is detected or `--with-plugin`
+- A2A card only with `--with-a2a`
 
-### 5. brand.txt
-Informal community convention. Canonical name, description, tone, social profiles.
+## What still needs a human (or explicit agent judgment)
 
-### 6. agents.txt
-agents-txt.com capability declaration at `/agents.txt`. Comment out MCP/A2A/Skills/UCP/WebMCP lines until the site actually exposes them.
-- A2A lines must point at `/.well-known/agent-card.json` (not `agents.json`)
+- Correct production domain if package.json homepage is wrong
+- Training crawl policy for legal/business reasons
+- Real MCP / A2A / payment endpoints (never invent live capabilities)
+- Per-page schema (FAQ, Article) and content quality for AEO/GEO
+- CDN/host config so `/.well-known` is reachable
 
-### 7. agents.json (site root)
-agents-txt.com companion catalog at `/agents.json` (NOT the A2A Agent Card). Include `$schema`, `version`, `standard`, and `site` metadata. Only add `mcp`, `a2a`, `skills`, etc. when real endpoints exist.
+## Manual fallback (if npx cannot run)
 
-### 8. .well-known/agent-card.json
-A2A Agent Card (Linux Foundation A2A Protocol). Path must be `/.well-known/agent-card.json`.
-Required concepts: `name`, `description`, `version`, `supportedInterfaces` (url + protocolBinding + protocolVersion), `capabilities`, `defaultInputModes`, `defaultOutputModes`, `skills[]` with `id`/`name`/`description`.
-If the site has no A2A agent, either skip this file or write a clearly marked placeholder and tell the user to delete it.
-
-### 9. .well-known/ai-plugin.json
-Legacy OpenAI ChatGPT plugin manifest. Point `api.url` at a real OpenAPI document (`/openapi.yaml` or `/openapi.json`), never at `sitemap.xml`. Prefer OpenAPI + MCP for new tool integrations.
-
-### 10. .well-known/tdmrep.json
-W3C TDMRep site-wide file: a **JSON array** of rules, each with `location` and `tdm-reservation` (`1` = rights reserved / opt-out, `0` = not reserved). Optional `tdm-policy` URL.
-
-### 11. .well-known/security.txt
-RFC 9116: `Contact`, `Expires`, `Preferred-Languages`, `Canonical`.
-
-### 12. humans.txt
-humanstxt.org TEAM + SITE sections.
-
-### 13. ads.txt
-IAB ads.txt; declare no authorized sellers if the site does not sell ads.
-
-### 14. carbon.txt
-carbontxt.org TOML (v0.5+): `version`, optional `last_updated`, `[org].disclosures` with at least one `{ doc_type, url }`. Do not invent freeform key-value formats.
-
-### 15. browserconfig.xml
-Microsoft tile config (legacy).
-
-### 16. manifest.json
-W3C Web App Manifest.
-
-## Step 4: Update the HTML head (if applicable)
-
-If the project has an HTML layout file, add:
-- `<link rel="icon" href="/favicon.svg" type="image/svg+xml" />`
-- `<link rel="manifest" href="/manifest.json" />`
-- `<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM content index" />`
-- `<link rel="alternate" type="text/plain" href="/agents.txt" title="Agent capabilities" />`
-- `<link rel="alternate" type="application/json" href="/agents.json" title="Agent capability catalog" />`
-
-## Step 5: Report what was created
-
-List each file created and any skipped. Remind the user:
-1. Edit `llms.txt` with key pages
-2. Uncomment real endpoints in `agents.txt` / extend root `agents.json` only when live
-3. Fix or remove `/.well-known/agent-card.json` if they do not run an A2A agent
-4. Add JSON-LD (`Organization`, `Person`, `FAQPage`) where appropriate
-5. Point plugin/OpenAPI URLs at real API specs if they expose tools
+1. Detect `public/` or `static/` (else project root).
+2. Read `package.json` for name, description, author, homepage.
+3. Scan `src/app/**/page.tsx`, `pages/**`, `content/**/*.mdx` for routes.
+4. Write the same file set as the CLI, with correct paths:
+   - A2A = `/.well-known/agent-card.json` only if real agent
+   - agents-txt companion = `/agents.json` at site root
+   - TDMRep = JSON **array** of `{ location, tdm-reservation }`
+   - carbon.txt = TOML v0.5
+   - Never point `ai-plugin.json` `api.url` at `sitemap.xml`
+5. Wire head links + Organization JSON-LD into the root layout when safe.
+6. Never overwrite existing files unless the user asked to force.
 
 ## Critical correctness rules
 
-- **Never** put the A2A Agent Card at `/.well-known/agents.json`
-- **Never** confuse root `/agents.json` (agents-txt companion) with `/.well-known/agent-card.json` (A2A)
-- **Never** use a single object for TDMRep well-known file; it must be an array of location rules
-- **Never** point `ai-plugin.json` `api.url` at `sitemap.xml`
+- Never put the A2A Agent Card at `/.well-known/agents.json`
+- Never confuse root `/agents.json` (agents-txt) with `/.well-known/agent-card.json` (A2A)
+- Never invent MCP/A2A URLs as live capabilities without `--with-a2a` / detected MCP
+- Prefer vendor-documented crawler tokens only
 
 ## Reference
 
-Full documentation: https://github.com/vedangvatsa/ai-discovery-standards
+https://github.com/vedangvatsa/ai-discovery-standards

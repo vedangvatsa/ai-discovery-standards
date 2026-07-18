@@ -6,32 +6,55 @@ A detailed reference of files, protocols, and techniques used to make websites d
 
 ## Quick Start
 
-Run one command to generate AI discovery files for your project:
+### Full auto (recommended for agents and CI)
+
+From your **website project root**:
 
 ```bash
-npx ai-discovery-standards
+npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan --url=https://your-domain.com
 ```
 
-> If the package is not yet on npm, use the GitHub shorthand:
->
-> ```bash
-> npx github:vedangvatsa/ai-discovery-standards
-> ```
+What this does:
 
-This interactive tool asks for your site name, URL, contact info, and training preference, then generates:
+1. Detects framework and static dir (`public/`, `static/`, …)
+2. Reads `package.json` for name, description, author, homepage
+3. Scans app routes / pages / MDX content for `llms.txt` (and `llms-full.txt` when sources exist)
+4. Writes discovery files (robots, agents, TDMRep, security, manifest, …)
+5. Writes `sitemap.xml` unless a framework sitemap route already exists
+6. Wires discovery `<link>` tags + Organization JSON-LD into `layout.tsx` / `index.html` when a safe injection point exists
 
-- `robots.txt`, `llms.txt`, `ai.txt`, `ai.json`, `brand.txt`
-- `agents.txt`, `agents.json` (agents-txt.com companion at site root)
-- `.well-known/agent-card.json` (A2A stub — edit or delete if you have no A2A agent)
-- `.well-known/ai-plugin.json` (legacy OpenAI plugin manifest)
-- `.well-known/tdmrep.json`, `.well-known/security.txt`
-- `humans.txt`, `ads.txt`, `carbon.txt`, `browserconfig.xml`, `manifest.json`
+Existing files are **not** overwritten unless you pass `--force`.
 
-It auto-detects `public/` or `static/` directories. Existing files are never overwritten.
+| Flag | Purpose |
+| ---- | ------- |
+| `--yes` / `-y` | Non-interactive |
+| `--scan` | Scan routes/content (on by default with `--yes`) |
+| `--url=https://…` | Canonical site URL |
+| `--name=…` `--email=…` `--owner=…` | Identity overrides |
+| `--deny-training` / `--allow-training` | Training crawler policy |
+| `--with-a2a` | Emit A2A agent-card stub (off by default) |
+| `--with-plugin` | Force legacy `ai-plugin.json` |
+| `--force` | Overwrite existing files |
+| `--dry-run` | Print actions only |
 
-### Claude Code Skill
+Interactive mode (prompts for missing fields):
 
-This repo includes a Claude Code command. Add it to your project:
+```bash
+npx github:vedangvatsa/ai-discovery-standards
+```
+
+### Give this repo to a coding agent
+
+Point the agent at this repository and instruct:
+
+```text
+Run full AI discovery auto-implement on this project:
+npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan --url=https://YOUR_DOMAIN
+Then review llms.txt, confirm training policy, and add page-level FAQ/Article JSON-LD where relevant.
+Do not advertise fake A2A/MCP endpoints.
+```
+
+Or install the Claude Code command:
 
 ```bash
 mkdir -p .claude/commands
@@ -39,9 +62,9 @@ curl -o .claude/commands/setup-ai-discovery.md \
   https://raw.githubusercontent.com/vedangvatsa/ai-discovery-standards/main/.claude/commands/setup-ai-discovery.md
 ```
 
-Then use `/setup-ai-discovery` in Claude Code to generate all files.
+Then `/setup-ai-discovery` runs the same full-auto procedure.
 
-Or browse the [`/templates`](./templates) directory to copy individual files manually.
+Templates in [`/templates`](./templates) remain available for manual copy.
 
 ---
 
