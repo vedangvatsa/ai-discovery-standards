@@ -3,8 +3,7 @@
   "version": "2.1.0",
   "description": "Full auto-implementation of AI discovery files: scan project, write robots/llms/agents/TDMRep, wire layout head tags and JSON-LD.",
   "bin": {
-    "aistandards": "./bin/setup.js",
-    "ai-discovery-standards": "./bin/setup.js"
+    "aistandards": "./bin/setup.js"
   },
   "keywords": [
     "ai", "seo", "aeo", "geo", "llms-txt", "robots-txt", "ai-discovery",

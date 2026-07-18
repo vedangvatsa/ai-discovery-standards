@@ -636,7 +636,6 @@ function writeFile(filePath, content, { force, dryRun, stats }) {
   return true;
 }
 
-// Canonical markers written by this CLI (package name: aistandards).
 const HEAD_MARKER_HTML_START = '<!-- aistandards:head -->';
 const HEAD_MARKER_HTML_END = '<!-- /aistandards:head -->';
 const HEAD_MARKER_JSX_START = '{/* aistandards:head */}';
@@ -644,30 +643,9 @@ const HEAD_MARKER_JSX_END = '{/* /aistandards:head */}';
 const SCRIPT_MARKER_START = '{/* aistandards:jsonld */}';
 const SCRIPT_MARKER_END = '{/* /aistandards:jsonld */}';
 
-// Legacy markers from the pre-rename package (ai-discovery-standards). Still recognized
-// so re-runs skip or --force-replace without duplicating blocks on already-wired sites.
-const LEGACY_HEAD_MARKER_HTML = [
-  ['<!-- ai-discovery-standards:head -->', '<!-- /ai-discovery-standards:head -->'],
-];
-const LEGACY_HEAD_MARKER_JSX = [
-  ['{/* ai-discovery-standards:head */}', '{/* /ai-discovery-standards:head */}'],
-];
-const LEGACY_SCRIPT_MARKER = [
-  ['{/* ai-discovery-standards:jsonld */}', '{/* /ai-discovery-standards:jsonld */}'],
-];
-
-const HEAD_HTML_PAIRS = [
-  [HEAD_MARKER_HTML_START, HEAD_MARKER_HTML_END],
-  ...LEGACY_HEAD_MARKER_HTML,
-];
-const HEAD_JSX_PAIRS = [
-  [HEAD_MARKER_JSX_START, HEAD_MARKER_JSX_END],
-  ...LEGACY_HEAD_MARKER_JSX,
-];
-const SCRIPT_PAIRS = [
-  [SCRIPT_MARKER_START, SCRIPT_MARKER_END],
-  ...LEGACY_SCRIPT_MARKER,
-];
+const HEAD_HTML_PAIRS = [[HEAD_MARKER_HTML_START, HEAD_MARKER_HTML_END]];
+const HEAD_JSX_PAIRS = [[HEAD_MARKER_JSX_START, HEAD_MARKER_JSX_END]];
+const SCRIPT_PAIRS = [[SCRIPT_MARKER_START, SCRIPT_MARKER_END]];
 
 function escapeReg(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
