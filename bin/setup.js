@@ -783,7 +783,14 @@ function wireLayout(filePath, { siteUrl, schemaOrg, force, dryRun, stats }) {
   }
 
   if (!changed) {
-    console.log(`  skip     ${filePath} (no safe injection point)`);
+    const alreadyWired =
+      (isHtml && hasAnyStart(src, HEAD_HTML_PAIRS)) ||
+      (isTsx && hasAnyStart(src, HEAD_JSX_PAIRS) && (!schemaOrg || hasAnyStart(src, SCRIPT_PAIRS)));
+    console.log(
+      alreadyWired
+        ? `  skip     ${filePath} (already wired)`
+        : `  skip     ${filePath} (no safe injection point)`
+    );
     stats.skipped++;
     return;
   }
