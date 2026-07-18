@@ -7,9 +7,9 @@
  * head tags + Organization JSON-LD when a layout is found.
  *
  * Usage:
- *   npx ai-discovery-standards
- *   npx ai-discovery-standards --yes --scan
- *   npx ai-discovery-standards --yes --url=https://example.com --name="My Site"
+ *   npx aistandards
+ *   npx aistandards --yes --scan
+ *   npx aistandards --yes --url=https://example.com --name="My Site"
  *   npx github:vedangvatsa/aistandards --yes --scan
  *
  * Flags:
@@ -636,12 +636,63 @@ function writeFile(filePath, content, { force, dryRun, stats }) {
   return true;
 }
 
-const HEAD_MARKER_HTML_START = '<!-- ai-discovery-standards:head -->';
-const HEAD_MARKER_HTML_END = '<!-- /ai-discovery-standards:head -->';
-const HEAD_MARKER_JSX_START = '{/* ai-discovery-standards:head */}';
-const HEAD_MARKER_JSX_END = '{/* /ai-discovery-standards:head */}';
-const SCRIPT_MARKER_START = '{/* ai-discovery-standards:jsonld */}';
-const SCRIPT_MARKER_END = '{/* /ai-discovery-standards:jsonld */}';
+// Canonical markers written by this CLI (package name: aistandards).
+const HEAD_MARKER_HTML_START = '<!-- aistandards:head -->';
+const HEAD_MARKER_HTML_END = '<!-- /aistandards:head -->';
+const HEAD_MARKER_JSX_START = '{/* aistandards:head */}';
+const HEAD_MARKER_JSX_END = '{/* /aistandards:head */}';
+const SCRIPT_MARKER_START = '{/* aistandards:jsonld */}';
+const SCRIPT_MARKER_END = '{/* /aistandards:jsonld */}';
+
+// Legacy markers from the pre-rename package (ai-discovery-standards). Still recognized
+// so re-runs skip or --force-replace without duplicating blocks on already-wired sites.
+const LEGACY_HEAD_MARKER_HTML = [
+  ['<!-- ai-discovery-standards:head -->', '<!-- /ai-discovery-standards:head -->'],
+];
+const LEGACY_HEAD_MARKER_JSX = [
+  ['{/* ai-discovery-standards:head */}', '{/* /ai-discovery-standards:head */}'],
+];
+const LEGACY_SCRIPT_MARKER = [
+  ['{/* ai-discovery-standards:jsonld */}', '{/* /ai-discovery-standards:jsonld */}'],
+];
+
+const HEAD_HTML_PAIRS = [
+  [HEAD_MARKER_HTML_START, HEAD_MARKER_HTML_END],
+  ...LEGACY_HEAD_MARKER_HTML,
+];
+const HEAD_JSX_PAIRS = [
+  [HEAD_MARKER_JSX_START, HEAD_MARKER_JSX_END],
+  ...LEGACY_HEAD_MARKER_JSX,
+];
+const SCRIPT_PAIRS = [
+  [SCRIPT_MARKER_START, SCRIPT_MARKER_END],
+  ...LEGACY_SCRIPT_MARKER,
+];
+
+function escapeReg(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function hasAnyStart(src, pairs) {
+  return pairs.some(([start]) => src.includes(start));
+}
+
+/** Replace first matching marked region with `replacement`; strip any further matches. */
+function replaceMarkedRegions(src, pairs, replacement) {
+  let out = src;
+  let didReplace = false;
+  for (const [start, end] of pairs) {
+    const re = new RegExp(`${escapeReg(start)}[\\s\\S]*?${escapeReg(end)}`);
+    if (!re.test(out)) continue;
+    if (!didReplace) {
+      out = out.replace(re, replacement);
+      didReplace = true;
+    } else {
+      out = out.replace(re, '');
+    }
+  }
+  return { src: out, replaced: didReplace };
+}
 
 function headLinks() {
   return [
@@ -679,25 +730,23 @@ function wireLayout(filePath, { siteUrl, schemaOrg, force, dryRun, stats }) {
   const isTsx = /\.(tsx|jsx)$/.test(filePath);
 
   if (isHtml) {
-    if (src.includes(HEAD_MARKER_HTML_START) && !force) {
+    if (hasAnyStart(src, HEAD_HTML_PAIRS) && !force) {
       console.log(`  skip     ${filePath} (head already wired)`);
       stats.skipped++;
       return;
     }
     const snippet = headSnippetHtml();
-    if (src.includes(HEAD_MARKER_HTML_START) && force) {
-      src = src.replace(
-        new RegExp(`${escapeReg(HEAD_MARKER_HTML_START)}[\\s\\S]*?${escapeReg(HEAD_MARKER_HTML_END)}`),
-        snippet
-      );
-      changed = true;
+    if (hasAnyStart(src, HEAD_HTML_PAIRS) && force) {
+      const result = replaceMarkedRegions(src, HEAD_HTML_PAIRS, snippet);
+      src = result.src;
+      changed = result.replaced;
     } else if (/<\/head>/i.test(src)) {
       src = src.replace(/<\/head>/i, `    ${snippet}\n  </head>`);
       changed = true;
     }
   } else if (isTsx) {
     const headSnippet = headSnippetJsx();
-    const alreadyHead = src.includes(HEAD_MARKER_JSX_START);
+    const alreadyHead = hasAnyStart(src, HEAD_JSX_PAIRS);
 
     if (!alreadyHead) {
       if (/<head\s*\/>/.test(src)) {
@@ -712,14 +761,12 @@ function wireLayout(filePath, { siteUrl, schemaOrg, force, dryRun, stats }) {
         changed = true;
       }
     } else if (force) {
-      src = src.replace(
-        new RegExp(`${escapeReg(HEAD_MARKER_JSX_START)}[\\s\\S]*?${escapeReg(HEAD_MARKER_JSX_END)}`),
-        headSnippet
-      );
-      changed = true;
+      const result = replaceMarkedRegions(src, HEAD_JSX_PAIRS, headSnippet);
+      src = result.src;
+      changed = result.replaced;
     }
 
-    if (schemaOrg && !src.includes(SCRIPT_MARKER_START)) {
+    if (schemaOrg && !hasAnyStart(src, SCRIPT_PAIRS)) {
       // Prefer inside <head>...</head>
       if (/<\/head>/.test(src)) {
         src = src.replace(/<\/head>/, `        ${jsonLdSnippetTsx(schemaOrg)}\n      </head>`);
@@ -728,12 +775,10 @@ function wireLayout(filePath, { siteUrl, schemaOrg, force, dryRun, stats }) {
         src = src.replace(/<body([^>]*)>/, `<body$1>\n        ${jsonLdSnippetTsx(schemaOrg)}`);
         changed = true;
       }
-    } else if (schemaOrg && force && src.includes(SCRIPT_MARKER_START)) {
-      src = src.replace(
-        new RegExp(`${escapeReg(SCRIPT_MARKER_START)}[\\s\\S]*?${escapeReg(SCRIPT_MARKER_END)}`),
-        jsonLdSnippetTsx(schemaOrg)
-      );
-      changed = true;
+    } else if (schemaOrg && force && hasAnyStart(src, SCRIPT_PAIRS)) {
+      const result = replaceMarkedRegions(src, SCRIPT_PAIRS, jsonLdSnippetTsx(schemaOrg));
+      src = result.src;
+      if (result.replaced) changed = true;
     }
   }
 
@@ -752,10 +797,6 @@ function wireLayout(filePath, { siteUrl, schemaOrg, force, dryRun, stats }) {
   fs.writeFileSync(filePath, src);
   console.log(`  wire     ${filePath}`);
   stats.written++;
-}
-
-function escapeReg(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────

@@ -1,14 +1,16 @@
 {
-  "name": "ai-discovery-standards",
-  "version": "2.0.0",
+  "name": "aistandards",
+  "version": "2.1.0",
   "description": "Full auto-implementation of AI discovery files: scan project, write robots/llms/agents/TDMRep, wire layout head tags and JSON-LD.",
   "bin": {
+    "aistandards": "./bin/setup.js",
     "ai-discovery-standards": "./bin/setup.js"
   },
   "keywords": [
     "ai", "seo", "aeo", "geo", "llms-txt", "robots-txt", "ai-discovery",
-    "chatgpt", "claude", "perplexity", "generative-engine-optimization",
-    "answer-engine-optimization", "schema", "structured-data"
+    "aistandards", "chatgpt", "claude", "perplexity",
+    "generative-engine-optimization", "answer-engine-optimization",
+    "schema", "structured-data"
   ],
   "author": "Vedang Vatsa",
   "license": "MIT",

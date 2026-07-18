@@ -14,6 +14,8 @@ From your **website project root**:
 npx --yes github:vedangvatsa/aistandards --yes --scan --url=https://your-domain.com
 ```
 
+Package name and CLI binary: `aistandards` (legacy alias `ai-discovery-standards` still works). Layout injection markers use `aistandards:head` / `aistandards:jsonld`; older `ai-discovery-standards:*` markers are still detected so re-runs do not duplicate blocks.
+
 What this does:
 
 1. Detects framework and static dir (`public/`, `static/`, …)
