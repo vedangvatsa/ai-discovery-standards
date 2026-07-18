@@ -1,26 +1,27 @@
 # agents.txt - Agent Protocol Capability Declaration
-# https://agents-txt.com
+# Spec: https://agents-txt.com
+# Companion JSON (recommended): /agents.json
 # Replace example.com with your domain
 
-# MCP server endpoint (if you run an MCP server)
+# MCP server endpoint (Streamable HTTP). Repeat for multiple servers.
 # MCP: https://example.com/mcp
 
-# A2A AgentCard (if you expose agent capabilities)
-# A2A: https://example.com/.well-known/agents.json
+# A2A AgentCard URL(s). Canonical single-agent path is /.well-known/agent-card.json
+# A2A: https://example.com/.well-known/agent-card.json
 
-# Skill packages (if you offer agent skills)
-# Skills: https://example.com/skills/index.md
+# Skill packages for agents consuming your service (not repo-level AGENTS.md)
+# Skills: https://example.com/skills/main/SKILL.md
 
-# UCP profiles (if you use Universal Communication Protocol)
-# UCP: https://example.com/.well-known/ucp.json
+# UCP commerce profiles
+# UCP: https://example.com/.well-known/ucp
 
-# WebMCP pages (if you register in-browser WebMCP tools)
-# WebMCP: https://example.com/webmcp
+# Pages that register in-browser WebMCP tools
+# WebMCP: https://example.com/app
 
-# Payment protocols (if you accept agent-initiated payments)
+# Payment protocol identifiers (details live in 402 responses / protocol layers)
 # Protocols: x402, mpp
 # Payments: required
 
-# Authorization protocols (if agents must authenticate)
-# Authorization: oauth2, api-key
+# Authorization protocol identifiers
+# Authorization: oauth2, agent-auth
 # Identity: required

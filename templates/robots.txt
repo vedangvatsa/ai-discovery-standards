@@ -1,5 +1,9 @@
-# robots.txt - Complete AI Crawler Reference Template
+# robots.txt - AI crawler reference template
+# Standard: RFC 9309
 # Replace example.com with your domain
+#
+# Training vs search are separate decisions for many vendors.
+# User-triggered fetchers may ignore robots.txt (see vendor docs).
 
 User-agent: *
 Allow: /
@@ -21,73 +25,49 @@ Allow: /
 User-agent: YandexBot
 Allow: /
 
-User-agent: BraveBot
-Allow: /
-
-# === AI SEARCH/RETRIEVAL BOTS (cite your content) ===
+# === AI SEARCH / RETRIEVAL (vendor-documented) ===
 
 User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
 Allow: /
 
 User-agent: Claude-SearchBot
 Allow: /
 
-User-agent: Claude-User
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
-User-agent: Perplexity-User
-Allow: /
-
-User-agent: CopilotBot
-Allow: /
-
-User-agent: YouBot
 Allow: /
 
 User-agent: Applebot
 Allow: /
 
-User-agent: Amazonbot
+# === USER-TRIGGERED FETCHERS ===
+# OpenAI: robots.txt may not apply to ChatGPT-User
+# Perplexity-User: generally ignores robots.txt
+# Google-NotebookLM: user-triggered; do not treat robots.txt as reliable control
+
+User-agent: ChatGPT-User
 Allow: /
 
-User-agent: meta-externalfetcher
+User-agent: Claude-User
 Allow: /
 
-User-agent: Gemini-Deep-Research
-Allow: /
-
-User-agent: Google-NotebookLM
+User-agent: Perplexity-User
 Allow: /
 
 User-agent: MistralAI-User
 Allow: /
 
-User-agent: DuckAssistBot
+User-agent: meta-externalfetcher
 Allow: /
 
-User-agent: TavilyBot
+User-agent: Google-NotebookLM
 Allow: /
 
-User-agent: KagiBot
+User-agent: Gemini-Deep-Research
 Allow: /
 
-User-agent: PhindBot
-Allow: /
-
-User-agent: GrokBot
-Allow: /
-
-User-agent: xAI-Bot
-Allow: /
-
-# === AI TRAINING BOTS (absorb content into model weights) ===
-# Decide: Allow (for visibility) or Disallow (for content protection)
+# === AI TRAINING / MODEL USE CONTROLS ===
+# Decide per bot: Allow (visibility / data contribution) or Disallow (opt-out)
+# Google-Extended is a control token, not a separate crawler process
 
 User-agent: GPTBot
 Allow: /
@@ -98,10 +78,16 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
 User-agent: Applebot-Extended
 Allow: /
 
 User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
 Allow: /
 
 User-agent: CCBot
@@ -113,21 +99,25 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-User-agent: TikTokSpider
-Allow: /
-
 User-agent: Diffbot
 Allow: /
 
-# === AI DISCOVERY FILES ===
+# === ADS VALIDATION (OpenAI; not used for model training) ===
+
+User-agent: OAI-AdsBot
+Allow: /
+
+# === OPTIONAL CONTENT PREFERENCE SIGNAL ===
+# Emerging: Cloudflare Content Signals / IETF AIPREF-related usage preferences.
+# Uncomment and set to match your policy if you adopt this convention:
+# Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# === DISCOVERY FILES (ensure crawlable) ===
 # /llms.txt
-# /llms-full.txt
-# /ai.txt
-# /ai.json
-# /brand.txt
 # /agents.txt
-# /.well-known/ai-plugin.json
-# /.well-known/agents.json
+# /agents.json
+# /.well-known/agent-card.json
 # /.well-known/security.txt
+# /.well-known/tdmrep.json
 
 Sitemap: https://example.com/sitemap.xml

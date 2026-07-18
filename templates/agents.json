@@ -1,20 +1,41 @@
 {
-  "schema_version": "v1",
-  "name": "Your Agent or Service Name",
-  "description": "What this agent/service does and what capabilities it offers.",
-  "url": "https://example.com",
-  "capabilities": [
+  "$schema": "https://agents-txt.com/schema/agents-json/v1.0.json",
+  "version": "1.0",
+  "standard": "https://agents-txt.com",
+  "site": {
+    "name": "Example Site",
+    "url": "https://example.com",
+    "description": "What this site offers agents and visitors."
+  },
+  "mcp": [
     {
-      "name": "capability_name",
-      "description": "What this capability does",
-      "endpoint": "https://example.com/api/capability"
+      "url": "https://example.com/mcp",
+      "type": "streamable-http",
+      "description": "Optional: what tools/resources this MCP server exposes."
     }
   ],
-  "authentication": {
-    "type": "none"
-  },
-  "contact": {
-    "email": "support@example.com",
-    "url": "https://example.com"
-  }
+  "a2a": [
+    {
+      "url": "https://example.com/.well-known/agent-card.json",
+      "description": "Optional: role of this A2A agent."
+    }
+  ],
+  "skills": [
+    {
+      "url": "https://example.com/skills/main/SKILL.md",
+      "description": "Optional: what this skill package teaches agents."
+    }
+  ],
+  "ucp": [
+    {
+      "url": "https://example.com/.well-known/ucp",
+      "description": "Optional: commerce profile description."
+    }
+  ],
+  "webmcp": [
+    {
+      "url": "https://example.com/app",
+      "description": "Optional: page that registers in-browser WebMCP tools."
+    }
+  ]
 }

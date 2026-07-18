@@ -1,0 +1,40 @@
+{
+  "name": "Example Agent",
+  "description": "What this A2A agent does. Replace with a factual capability description.",
+  "version": "1.0.0",
+  "provider": {
+    "organization": "Your Organization",
+    "url": "https://example.com"
+  },
+  "documentationUrl": "https://example.com/docs/agent",
+  "iconUrl": "https://example.com/icon.png",
+  "supportedInterfaces": [
+    {
+      "url": "https://example.com/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extendedAgentCard": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "example-skill",
+      "name": "Example Skill",
+      "description": "One discrete skill this agent can perform.",
+      "tags": ["example"],
+      "examples": [
+        "Give a short example of how a user would invoke this skill."
+      ],
+      "inputModes": ["text/plain"],
+      "outputModes": ["text/plain"]
+    }
+  ],
+  "securitySchemes": {},
+  "security": []
+}

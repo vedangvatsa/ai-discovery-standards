@@ -15,9 +15,10 @@ URL: https://example.com
 # Content Summary
 This site contains [describe your content here].
 
-# Machine-readable discovery files
+# Related discovery files (informational)
 LLMs-txt: https://example.com/llms.txt
 LLMs-Full-txt: https://example.com/llms-full.txt
-AI-Plugin: https://example.com/.well-known/ai-plugin.json
-Agents-JSON: https://example.com/.well-known/agents.json
+Agents-txt: https://example.com/agents.txt
+Agents-JSON: https://example.com/agents.json
+Agent-Card: https://example.com/.well-known/agent-card.json
 Sitemap: https://example.com/sitemap.xml

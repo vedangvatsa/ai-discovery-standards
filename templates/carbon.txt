@@ -1,10 +1,13 @@
-# carbon.txt
-# https://example.com
+version = "0.5"
+last_updated = 2026-07-18
 
-Provider: Your Hosting Provider
-Green: Yes/No
-URL: https://provider.com/sustainability
+[org]
+disclosures = [
+  { doc_type = "web-page", url = "https://example.com/sustainability", domain = "example.com", title = "Sustainability" }
+]
 
-Static-Generation: Yes/No
-Image-Optimization: Yes/No
-CDN: Yes/No
+# Optional: upstream infrastructure providers
+# [upstream]
+# services = [
+#   { domain = "cloud.example.com", service_type = "shared-hosting" }
+# ]
