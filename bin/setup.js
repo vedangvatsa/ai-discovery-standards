@@ -10,7 +10,7 @@
  *   npx ai-discovery-standards
  *   npx ai-discovery-standards --yes --scan
  *   npx ai-discovery-standards --yes --url=https://example.com --name="My Site"
- *   npx github:vedangvatsa/ai-discovery-standards --yes --scan
+ *   npx github:vedangvatsa/aistandards --yes --scan
  *
  * Flags:
  *   --yes, -y              Non-interactive (use flags + package.json + scan)
@@ -1181,7 +1181,7 @@ disclosures = [
   console.log('  - Real A2A/MCP endpoints (do not advertise fakes in production)');
   console.log('  - FAQPage / Article schema on content pages');
   console.log('  - Deploy so files are served at the domain root');
-  console.log('\nDocs: https://github.com/vedangvatsa/ai-discovery-standards\n');
+  console.log('\nDocs: https://github.com/vedangvatsa/aistandards\n');
 
   closeInput();
 }

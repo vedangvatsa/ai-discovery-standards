@@ -11,7 +11,7 @@ A detailed reference of files, protocols, and techniques used to make websites d
 From your **website project root**:
 
 ```bash
-npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan --url=https://your-domain.com
+npx --yes github:vedangvatsa/aistandards --yes --scan --url=https://your-domain.com
 ```
 
 What this does:
@@ -40,7 +40,7 @@ Existing files are **not** overwritten unless you pass `--force`.
 Interactive mode (prompts for missing fields):
 
 ```bash
-npx github:vedangvatsa/ai-discovery-standards
+npx github:vedangvatsa/aistandards
 ```
 
 ### Give this repo to a coding agent
@@ -49,7 +49,7 @@ Point the agent at this repository and instruct:
 
 ```text
 Run full AI discovery auto-implement on this project:
-npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan --url=https://YOUR_DOMAIN
+npx --yes github:vedangvatsa/aistandards --yes --scan --url=https://YOUR_DOMAIN
 Then review llms.txt, confirm training policy, and add page-level FAQ/Article JSON-LD where relevant.
 Do not advertise fake A2A/MCP endpoints.
 ```
@@ -59,7 +59,7 @@ Or install the Claude Code command:
 ```bash
 mkdir -p .claude/commands
 curl -o .claude/commands/setup-ai-discovery.md \
-  https://raw.githubusercontent.com/vedangvatsa/ai-discovery-standards/main/.claude/commands/setup-ai-discovery.md
+  https://raw.githubusercontent.com/vedangvatsa/aistandards/main/.claude/commands/setup-ai-discovery.md
 ```
 
 Then `/setup-ai-discovery` runs the same full-auto procedure.

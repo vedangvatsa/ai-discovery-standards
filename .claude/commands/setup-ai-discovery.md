@@ -7,7 +7,7 @@ When asked to set up AI discovery files, implement as much as possible automatic
 From the **target project root** (not necessarily this repo):
 
 ```bash
-npx --yes github:vedangvatsa/ai-discovery-standards --yes --scan
+npx --yes github:vedangvatsa/aistandards --yes --scan
 ```
 
 Useful flags:
@@ -84,4 +84,4 @@ After the CLI finishes:
 
 ## Reference
 
-https://github.com/vedangvatsa/ai-discovery-standards
+https://github.com/vedangvatsa/aistandards
