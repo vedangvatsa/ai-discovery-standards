@@ -14,7 +14,7 @@ From your **website project root**:
 npx --yes github:vedangvatsa/aistandards --yes --scan --url=https://your-domain.com
 ```
 
-Package name and CLI binary: `aistandards` (legacy alias `ai-discovery-standards` still works). Layout injection markers use `aistandards:head` / `aistandards:jsonld`; older `ai-discovery-standards:*` markers are still detected so re-runs do not duplicate blocks.
+Package name and CLI binary: `aistandards`. Injected layout blocks are marked with `aistandards:head` and `aistandards:jsonld` so re-runs skip already-wired files.
 
 What this does:
 
